@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Genshin Build Planner
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- ======================================================
+       NAVBAR
+       ====================================================== -->
+
+  <nav class="navbar">
+
+    <div class="logo">
+      Genshin Build Planner
+    </div>
+
+
+    <div class="nav-links">
+
+      <a href="#characters">
+        Characters
+      </a>
+
+      <a href="#calculator">
+        Calculator
+      </a>
+
+      <a href="#inventory">
+        Inventory
+      </a>
+
+    </div>
+
+  </nav>
+
+
+  <!-- ======================================================
+       HERO
+       ====================================================== -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <p class="hero-small">
+        GENSHIN IMPACT
+      </p>
+
+
+      <h1>
+        Character Build Planner
+      </h1>
+
+
+      <p>
+
+        Plan your character upgrades,
+        calculate materials,
+        and manage your farming goals.
+
+      </p>
+
+
+      <a
+        href="#characters"
+        class="hero-button"
+      >
+        Choose Character
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================================================
+       CHARACTERS
+       ====================================================== -->
+
+  <section
+    id="characters"
+    class="section"
+  >
+
+    <div class="section-heading">
+
+      <p class="section-label">
+        YOUR CHARACTERS
+      </p>
+
+
+      <h2>
+        Select a Character
+      </h2>
+
+    </div>
+
+
+    <div class="character-controls">
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search character..."
+      >
+
+
+      <div class="filter-area">
+
+
+        <!-- ELEMENT FILTERS -->
+
+        <div class="filter-group">
+
+          <span class="filter-title">
+            ELEMENT
+          </span>
+
+
+          <div class="element-filters">
+
+            <button
+              class="filter-button active"
+              data-element="All"
+            >
+              All
+            </button>
+
+
+            <button
+              class="filter-button"
+              data-element="Pyro"
+            >
+              Pyro
+            </button>
+
+
+            <button
+              class="filter-button"
+              data-element="Hydro"
+            >
+              Hydro
+            </button>
+
+
+            <button
+              class="filter-button"
+              data-element="Electro"
+            >
+              Electro
+            </button>
+
+
+            <button
+              class="filter-button"
+              data-element="Dendro"
+            >
+              Dendro
+            </button>
+
+
+            <button
+              class="filter-button"
+              data-element="Cryo"
+            >
+              Cryo
+            </button>
+
+
+            <button
+              class="filter-button"
+              data-element="Anemo"
+            >
+              Anemo
+            </button>
+
+
+            <button
+              class="filter-button"
+              data-element="Geo"
+            >
+              Geo
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- RARITY FILTERS -->
+
+        <div class="filter-group">
+
+          <span class="filter-title">
+            RARITY
+          </span>
+
+
+          <div class="rarity-filters">
+
+            <button
+              class="rarity-filter-button active"
+              data-rarity="All"
+            >
+              All
+            </button>
+
+
+            <button
+              class="rarity-filter-button"
+              data-rarity="5"
+            >
+              ★★★★★ 5★
+            </button>
+
+
+            <button
+              class="rarity-filter-button"
+              data-rarity="4"
+            >
+              ★★★★ 4★
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="characterGrid"
+      class="character-grid"
+    ></div>
+
+
+    <!-- SELECTED CHARACTER -->
+
+    <div
+      id="selectedCharacter"
+      class="selected-character hidden"
+    >
+
+      <div class="selected-character-info">
+
+        <div
+          id="selectedCharacterIcon"
+          class="character-icon"
+        >
+          ?
+        </div>
+
+
+        <div>
+
+          <p class="selected-label">
+            SELECTED CHARACTER
+          </p>
+
+
+          <h3 id="selectedCharacterName">
+            Character
+          </h3>
+
+
+          <p id="selectedCharacterDetails">
+            Element • Weapon • ⭐⭐⭐⭐⭐
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button
+        id="openCalculatorButton"
+        class="primary-button"
+      >
+        Set Build Targets
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================================================
+       CALCULATOR
+       ====================================================== -->
+
+  <section
+    id="calculator"
+    class="section calculator-section"
+  >
+
+    <div class="section-heading">
+
+      <p class="section-label">
+        BUILD PLANNER
+      </p>
+
+
+      <h2>
+        Build Targets
+      </h2>
+
+
+      <p class="section-description">
+        Select the level range you want to upgrade.
+      </p>
+
+    </div>
+
+
+    <!-- EMPTY STATE -->
+
+    <div
+      id="calculatorEmpty"
+      class="empty-state"
+    >
+
+      <div class="empty-icon">
+        ⚔
+      </div>
+
+
+      <h3>
+        Select a character first
+      </h3>
+
+
+      <p>
+        Choose a character above to start planning your build.
+      </p>
+
+    </div>
+
+
+    <!-- CALCULATOR -->
+
+    <div
+      id="calculatorContent"
+      class="calculator-card hidden"
+    >
+
+
+      <!-- BUILD HEADER -->
+
+      <div class="build-character-header">
+
+        <div class="build-character-info">
+
+          <div
+            id="buildCharacterIcon"
+            class="character-icon large"
+          >
+            ?
+          </div>
+
+
+          <div>
+
+            <p class="selected-label">
+              BUILDING
+            </p>
+
+
+            <h3 id="buildCharacterName">
+              Character
+            </h3>
+
+
+            <p id="buildCharacterDetails">
+              Element • Weapon
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <button
+          id="resetButton"
+          class="secondary-button"
+        >
+          Reset
+        </button>
+
+      </div>
+
+
+      <!-- CHARACTER LEVEL -->
+
+      <div class="target-section">
+
+        <div class="target-title-row">
+
+          <div>
+
+            <p class="target-label">
+              CHARACTER LEVEL
+            </p>
+
+
+            <h3>
+              Level Range
+            </h3>
+
+          </div>
+
+
+          <div class="target-result">
+
+            <span id="levelFromValue">
+              1
+            </span>
+
+            <span>
+              →
+            </span>
+
+            <span id="levelToValue">
+              90
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- FROM -->
+
+        <div class="range-block">
+
+          <div class="range-label">
+            FROM
+          </div>
+
+
+          <input
+            type="range"
+            id="levelFrom"
+            min="1"
+            max="90"
+            value="1"
+            step="1"
+          >
+
+        </div>
+
+
+        <!-- TO -->
+
+        <div class="range-block">
+
+          <div class="range-label">
+            TO
+          </div>
+
+
+          <input
+            type="range"
+            id="levelTo"
+            min="1"
+            max="90"
+            value="90"
+            step="1"
+          >
+
+
+          <div class="range-minmax">
+
+            <span>
+              1
+            </span>
+
+            <span>
+              90
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==================================================
+           TALENTS
+           ================================================== -->
+
+      <div class="talents-section">
+
+        <div class="target-heading">
+
+          <div>
+
+            <p class="target-label">
+              TALENTS
+            </p>
+
+
+            <h3>
+              Talent Level Ranges
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <div class="talent-grid">
+
+
+          <!-- NORMAL ATTACK -->
+
+          <div class="talent-card">
+
+            <div class="talent-header">
+
+              <div class="talent-title">
+
+                <span class="talent-icon">
+                  ⚔
+                </span>
+
+
+                <h4>
+                  Normal Attack
+                </h4>
+
+              </div>
+
+
+              <div class="talent-result">
+
+                <span id="normalAttackFromValue">
+                  1
+                </span>
+
+                <span>
+                  →
+                </span>
+
+                <span id="normalAttackToValue">
+                  10
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="range-block">
+
+              <div class="range-label">
+                FROM
+              </div>
+
+
+              <input
+                type="range"
+                id="normalAttackFrom"
+                min="1"
+                max="10"
+                value="1"
+                step="1"
+              >
+
+            </div>
+
+
+            <div class="range-block">
+
+              <div class="range-label">
+                TO
+              </div>
+
+
+              <input
+                type="range"
+                id="normalAttackTo"
+                min="1"
+                max="10"
+                value="10"
+                step="1"
+              >
+
+
+              <div class="range-minmax">
+
+                <span>
+                  1
+                </span>
+
+                <span>
+                  10
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ELEMENTAL SKILL -->
+
+          <div class="talent-card">
+
+            <div class="talent-header">
+
+              <div class="talent-title">
+
+                <span class="talent-icon">
+                  ✦
+                </span>
+
+
+                <h4>
+                  Elemental Skill
+                </h4>
+
+              </div>
+
+
+              <div class="talent-result">
+
+                <span id="skillFromValue">
+                  1
+                </span>
+
+                <span>
+                  →
+                </span>
+
+                <span id="skillToValue">
+                  10
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="range-block">
+
+              <div class="range-label">
+                FROM
+              </div>
+
+
+              <input
+                type="range"
+                id="skillFrom"
+                min="1"
+                max="10"
+                value="1"
+                step="1"
+              >
+
+            </div>
+
+
+            <div class="range-block">
+
+              <div class="range-label">
+                TO
+              </div>
+
+
+              <input
+                type="range"
+                id="skillTo"
+                min="1"
+                max="10"
+                value="10"
+                step="1"
+              >
+
+
+              <div class="range-minmax">
+
+                <span>
+                  1
+                </span>
+
+                <span>
+                  10
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ELEMENTAL BURST -->
+
+          <div class="talent-card">
+
+            <div class="talent-header">
+
+              <div class="talent-title">
+
+                <span class="talent-icon">
+                  ◈
+                </span>
+
+
+                <h4>
+                  Elemental Burst
+                </h4>
+
+              </div>
+
+
+              <div class="talent-result">
+
+                <span id="burstFromValue">
+                  1
+                </span>
+
+                <span>
+                  →
+                </span>
+
+                <span id="burstToValue">
+                  10
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="range-block">
+
+              <div class="range-label">
+                FROM
+              </div>
+
+
+              <input
+                type="range"
+                id="burstFrom"
+                min="1"
+                max="10"
+                value="1"
+                step="1"
+              >
+
+            </div>
+
+
+            <div class="range-block">
+
+              <div class="range-label">
+                TO
+              </div>
+
+
+              <input
+                type="range"
+                id="burstTo"
+                min="1"
+                max="10"
+                value="10"
+                step="1"
+              >
+
+
+              <div class="range-minmax">
+
+                <span>
+                  1
+                </span>
+
+                <span>
+                  10
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==================================================
+           SUMMARY
+           ================================================== -->
+
+      <div class="build-summary">
+
+        <div class="summary-header">
+
+          <h3>
+            Build Summary
+          </h3>
+
+        </div>
+
+
+        <div class="summary-grid">
+
+          <div class="summary-item">
+
+            <span>
+              Character Level
+            </span>
+
+
+            <strong id="summaryLevel">
+              1 → 90
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Normal Attack
+            </span>
+
+
+            <strong id="summaryNormal">
+              1 → 10
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Elemental Skill
+            </span>
+
+
+            <strong id="summarySkill">
+              1 → 10
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Elemental Burst
+            </span>
+
+
+            <strong id="summaryBurst">
+              1 → 10
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- VALIDATION -->
+
+      <div
+        id="validationMessage"
+        class="validation-message hidden"
+      ></div>
+
+
+      <!-- CALCULATE -->
+
+      <button
+        id="calculateMaterialsButton"
+        class="calculate-button"
+      >
+        Calculate Materials
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================================================
+       INVENTORY
+       ====================================================== -->
+
+  <section
+    id="inventory"
+    class="section"
+  >
+
+    <div class="section-heading">
+
+      <p class="section-label">
+        MATERIAL MANAGEMENT
+      </p>
+
+
+      <h2>
+        Inventory
+      </h2>
+
+    </div>
+
+
+    <div class="inventory-placeholder">
+
+      <div class="empty-icon">
+        🎒
+      </div>
+
+
+      <h3>
+        Inventory coming next
+      </h3>
+
+
+      <p>
+        You will be able to enter your current materials
+        and track what you still need.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================================================
+       FOOTER
+       ====================================================== -->
+
+  <footer>
+
+    <p>
+      Genshin Build Planner • Fan-made project
+    </p>
+
+  </footer>
+
+
+  <!-- ======================================================
+       JAVASCRIPT
+       ====================================================== -->
+
+<script src="characters.js"></script>
+<script src="script.js"></script>
+<script src="ascension.js"></script>
+<script src="manual-images.js"></script>
+<script src="talents.js"></script>
+<script src="inventory.js"></script>
+<script src="resin.js"></script>
+<script src="farming.js"></script>
+<script src="character-domains.js"></script>
+<script src="enemy-drops.js"></script>
+
+</body> 
+
+</html>
