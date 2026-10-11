@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vikasvikas5380-debug.github.io/genshin-build-planner/sitemap.xml
