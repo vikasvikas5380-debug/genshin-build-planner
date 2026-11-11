@@ -142,6 +142,12 @@ const CHARACTER_ICON_OVERRIDES = {
   skirk:
     "SkirkNew",
 
+      mitya:
+    "Mitya",
+
+  valeriy:
+    "Valeriy",
+
   mavuika:
     "Mavuika",
 

@@ -19,6 +19,114 @@ const ASCENSION_STAGES = [
 
 const ascensionMaterialImageCache = new Map();
 
+// ============================================================
+// MANUAL ASCENSION DATA FOR NEW 7.2 CHARACTERS
+// ============================================================
+
+const MANUAL_ASCENSION_DATA = {
+  mitya: {
+    costs: {
+      ascend1: [
+        { id: 202, name: "Mora", count: 20000 },
+        { id: 104141, name: "Vajrada Amethyst Sliver", count: 1 },
+        { id: 101274, name: "Kristallfold", count: 3 },
+        { id: 112149, name: "Chimeric Core", count: 3 }
+      ],
+
+      ascend2: [
+        { id: 202, name: "Mora", count: 40000 },
+        { id: 104142, name: "Vajrada Amethyst Fragment", count: 3 },
+        { id: 113093, name: "Shattered Stability Anchor", count: 2 },
+        { id: 101274, name: "Kristallfold", count: 10 },
+        { id: 112149, name: "Chimeric Core", count: 15 }
+      ],
+
+      ascend3: [
+        { id: 202, name: "Mora", count: 60000 },
+        { id: 104142, name: "Vajrada Amethyst Fragment", count: 6 },
+        { id: 113093, name: "Shattered Stability Anchor", count: 4 },
+        { id: 101274, name: "Kristallfold", count: 20 },
+        { id: 112150, name: "Symbiotic Chimeric Nucleus", count: 12 }
+      ],
+
+      ascend4: [
+        { id: 202, name: "Mora", count: 80000 },
+        { id: 104143, name: "Vajrada Amethyst Chunk", count: 3 },
+        { id: 113093, name: "Shattered Stability Anchor", count: 8 },
+        { id: 101274, name: "Kristallfold", count: 30 },
+        { id: 112150, name: "Symbiotic Chimeric Nucleus", count: 18 }
+      ],
+
+      ascend5: [
+        { id: 202, name: "Mora", count: 100000 },
+        { id: 104143, name: "Vajrada Amethyst Chunk", count: 6 },
+        { id: 113093, name: "Shattered Stability Anchor", count: 12 },
+        { id: 101274, name: "Kristallfold", count: 45 },
+        { id: 112151, name: "Prime Chimeric Nexus", count: 12 }
+      ],
+
+      ascend6: [
+        { id: 202, name: "Mora", count: 120000 },
+        { id: 104144, name: "Vajrada Amethyst Gemstone", count: 6 },
+        { id: 113093, name: "Shattered Stability Anchor", count: 20 },
+        { id: 101274, name: "Kristallfold", count: 60 },
+        { id: 112151, name: "Prime Chimeric Nexus", count: 24 }
+      ]
+    }
+  },
+
+  valeriy: {
+    costs: {
+      ascend1: [
+        { id: 202, name: "Mora", count: 20000 },
+        { id: 104141, name: "Vajrada Amethyst Sliver", count: 1 },
+        { id: 101273, name: "Fairy Wormwood", count: 3 },
+        { id: 112146, name: "Ethereal Glimmershard", count: 3 }
+      ],
+
+      ascend2: [
+        { id: 202, name: "Mora", count: 40000 },
+        { id: 104142, name: "Vajrada Amethyst Fragment", count: 3 },
+        { id: 113091, name: "Severed Tail of the Sky-Roamer", count: 2 },
+        { id: 101273, name: "Fairy Wormwood", count: 10 },
+        { id: 112146, name: "Ethereal Glimmershard", count: 15 }
+      ],
+
+      ascend3: [
+        { id: 202, name: "Mora", count: 60000 },
+        { id: 104142, name: "Vajrada Amethyst Fragment", count: 6 },
+        { id: 113091, name: "Severed Tail of the Sky-Roamer", count: 4 },
+        { id: 101273, name: "Fairy Wormwood", count: 20 },
+        { id: 112147, name: "Ethereal Crystal", count: 12 }
+      ],
+
+      ascend4: [
+        { id: 202, name: "Mora", count: 80000 },
+        { id: 104143, name: "Vajrada Amethyst Chunk", count: 3 },
+        { id: 113091, name: "Severed Tail of the Sky-Roamer", count: 8 },
+        { id: 101273, name: "Fairy Wormwood", count: 30 },
+        { id: 112147, name: "Ethereal Crystal", count: 18 }
+      ],
+
+      ascend5: [
+        { id: 202, name: "Mora", count: 100000 },
+        { id: 104143, name: "Vajrada Amethyst Chunk", count: 6 },
+        { id: 113091, name: "Severed Tail of the Sky-Roamer", count: 12 },
+        { id: 101273, name: "Fairy Wormwood", count: 45 },
+        { id: 112148, name: "Ethereal Crystalscale Stone", count: 12 }
+      ],
+
+      ascend6: [
+        { id: 202, name: "Mora", count: 120000 },
+        { id: 104144, name: "Vajrada Amethyst Gemstone", count: 6 },
+        { id: 113091, name: "Severed Tail of the Sky-Roamer", count: 20 },
+        { id: 101273, name: "Fairy Wormwood", count: 60 },
+        { id: 112148, name: "Ethereal Crystalscale Stone", count: 24 }
+      ]
+    }
+  }
+};
+
 
 // ============================================================
 // STYLES
@@ -533,8 +641,15 @@ async function getAscensionImageSources(
 
     if (response.ok) {
 
+      const responseText =
+        await response.text();
+
+      if (!responseText || !responseText.trim()) {
+        throw new Error("Material API returned an empty response.");
+      }
+
       const data =
-        await response.json();
+        JSON.parse(responseText);
 
 
       let materialData = null;
@@ -865,86 +980,74 @@ function getAscensionCharacterData(
 // FETCH CHARACTER DATA
 // ============================================================
 
-async function fetchAscensionCharacterData(
-  characterName
-) {
+async function fetchAscensionCharacterData(characterName) {
+  const characterKey = String(characterName)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
 
+  // Check manual data first.
+  if (MANUAL_ASCENSION_DATA[characterKey]) {
+    console.log(
+      `Using manual ascension data for ${characterName}`
+    );
+
+    return MANUAL_ASCENSION_DATA[characterKey];
+  }
+
+  // Use API for all other characters.
   const url =
     `${ASCENSION_API}` +
     `?query=${encodeURIComponent(characterName)}` +
     `&resultLanguage=english`;
 
+  const controller = new AbortController();
 
-  const controller =
-    new AbortController();
-
-
-  const timeout =
-    setTimeout(
-      () => {
-        controller.abort();
-      },
-      15000
-    );
-
+  const timeout = setTimeout(() => {
+    controller.abort();
+  }, 15000);
 
   try {
+    const response = await fetch(url, {
+      signal: controller.signal
+    });
 
-    const response =
-      await fetch(
-        url,
-        {
-          signal:
-            controller.signal
-        }
-      );
-
-
-    if (
-      !response.ok
-    ) {
-
+    if (!response.ok) {
       throw new Error(
         `API returned HTTP ${response.status}`
       );
-
     }
 
+    const responseText = await response.text();
 
-    const data =
-      await response.json();
-
-
-    return getAscensionCharacterData(
-      data
-    );
-
-  }
-
-  catch (error) {
-
-    if (
-      error.name ===
-      "AbortError"
-    ) {
-
+    if (!responseText.trim()) {
       throw new Error(
-        "The material API took too long to respond."
+        `No ascension data available for ${characterName}.`
       );
-
     }
 
+    const data = JSON.parse(responseText);
+
+    const characterData = getAscensionCharacterData(data);
+
+    if (!characterData?.costs) {
+      throw new Error(
+        `No ascension data found for ${characterName}.`
+      );
+    }
+
+    return characterData;
+
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("Ascension API request timed out.");
+    }
 
     throw error;
 
-  }
-
-  finally {
-
+  } finally {
     clearTimeout(timeout);
-
   }
-
 }
 
 
@@ -1311,7 +1414,6 @@ async function calculateCharacterAscensionMaterials() {
     return;
 
   }
-
 
   area.innerHTML = `
 

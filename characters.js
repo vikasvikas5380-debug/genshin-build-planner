@@ -615,6 +615,13 @@ const characters = [
     weapon: "Polearm",
     rarity: 4
   },
+    {
+    id: "mitya",
+    name: "Mitya",
+    element: "Electro",
+    weapon: "Catalyst",
+    rarity: 5
+  },
 
   {
     id: "mona",
@@ -902,6 +909,13 @@ const characters = [
     element: "Electro",
     weapon: "Catalyst",
     rarity: 5
+  },
+    {
+    id: "valeriy",
+    name: "Valeriy",
+    element: "Electro",
+    weapon: "Sword",
+    rarity: 4
   },
 
   {
