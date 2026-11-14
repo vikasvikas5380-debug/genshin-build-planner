@@ -55,12 +55,24 @@
 
     <div class="nav-links">
 
+      <a href="#dashboard">
+        Dashboard
+      </a>
+
       <a href="#characters">
         Characters
       </a>
 
       <a href="#calculator">
         Calculator
+      </a>
+
+      <a href="#builds">
+        Builds
+      </a>
+
+      <a href="#materials">
+        Materials
       </a>
 
       <a href="#inventory">
@@ -70,6 +82,265 @@
     </div>
 
   </nav>
+
+
+  <!-- ======================================================
+       ACCOUNT DASHBOARD
+       ====================================================== -->
+
+  <section
+    id="dashboard"
+    class="dashboard-section"
+  >
+
+    <div class="dashboard-shell">
+
+      <div class="dashboard-welcome">
+
+        <div>
+
+          <p class="dashboard-kicker">
+            ADVENTURER OVERVIEW
+          </p>
+
+
+          <h1>
+            My Account Dashboard
+          </h1>
+
+
+          <p class="dashboard-welcome-copy">
+            Your command center for characters, materials, and the next step
+            in your journey through Teyvat.
+          </p>
+
+        </div>
+
+
+        <div class="dashboard-orb" aria-hidden="true">
+          <span>✦</span>
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-stat-grid">
+
+        <article class="dashboard-stat-card dashboard-stat-card-muted">
+          <span class="dashboard-stat-icon">♙</span>
+          <span class="dashboard-stat-label">Owned Characters</span>
+          <strong id="dashboardOwnedCharacters">Coming Soon</strong>
+          <small>Collection tracking is not available yet</small>
+        </article>
+
+
+        <article class="dashboard-stat-card dashboard-stat-card-muted">
+          <span class="dashboard-stat-icon">★</span>
+          <span class="dashboard-stat-label">5-Star Characters</span>
+          <strong id="dashboardFiveStarCharacters">Coming Soon</strong>
+          <small>Based on your owned collection</small>
+        </article>
+
+
+        <article class="dashboard-stat-card dashboard-stat-card-muted">
+          <span class="dashboard-stat-icon">✦</span>
+          <span class="dashboard-stat-label">4-Star Characters</span>
+          <strong id="dashboardFourStarCharacters">Coming Soon</strong>
+          <small>Based on your owned collection</small>
+        </article>
+
+
+        <article class="dashboard-stat-card dashboard-stat-card-muted">
+          <span class="dashboard-stat-icon">♧</span>
+          <span class="dashboard-stat-label">Saved Teams</span>
+          <strong id="dashboardSavedTeams">Coming Soon</strong>
+          <small>Team planning arrives in a future phase</small>
+        </article>
+
+
+        <article class="dashboard-stat-card">
+          <span class="dashboard-stat-icon">◇</span>
+          <span class="dashboard-stat-label">Materials Tracked</span>
+          <strong id="dashboardMaterialsTracked">0</strong>
+          <small id="dashboardMaterialsNote">From your current inventory</small>
+        </article>
+
+
+        <article class="dashboard-stat-card dashboard-stat-card-muted">
+          <span class="dashboard-stat-icon">↗</span>
+          <span class="dashboard-stat-label">Characters Being Upgraded</span>
+          <strong id="dashboardCharactersUpgrading">0</strong>
+          <small id="dashboardUpgradingNote">Characters with saved builds</small>
+        </article>
+
+      </div>
+
+
+      <div class="dashboard-main-grid">
+
+        <article class="dashboard-panel dashboard-resin-panel">
+
+          <div class="dashboard-panel-heading">
+            <div>
+              <p class="dashboard-panel-kicker">RESOURCE PULSE</p>
+              <h2>Resin Overview</h2>
+            </div>
+            <span class="dashboard-panel-icon">◌</span>
+          </div>
+
+
+          <div class="dashboard-resin-grid">
+            <div>
+              <span>Current resin</span>
+              <strong>Coming Soon</strong>
+            </div>
+            <div>
+              <span>Maximum resin</span>
+              <strong>Coming Soon</strong>
+            </div>
+            <div>
+              <span>Time until full</span>
+              <strong>Coming Soon</strong>
+            </div>
+          </div>
+
+
+          <p class="dashboard-empty-note">
+            Live resin tracking is not implemented in this phase.
+          </p>
+
+        </article>
+
+
+        <article class="dashboard-panel">
+
+          <div class="dashboard-panel-heading">
+            <div>
+              <p class="dashboard-panel-kicker">WEEKLY ROUTE</p>
+              <h2>Farming Overview</h2>
+            </div>
+            <span class="dashboard-panel-icon">⌁</span>
+          </div>
+
+
+          <div id="dashboardFarmingContent" class="dashboard-farming-content">
+            <div class="dashboard-loading-line"></div>
+            <div class="dashboard-loading-line dashboard-loading-line-short"></div>
+          </div>
+
+        </article>
+
+
+        <article class="dashboard-panel dashboard-progress-panel">
+
+          <div class="dashboard-panel-heading">
+            <div>
+              <p class="dashboard-panel-kicker">ASCENSION ROADMAP</p>
+              <h2>Upgrade Progress</h2>
+            </div>
+            <span class="dashboard-panel-icon">◈</span>
+          </div>
+
+
+          <div id="dashboardUpgradeContent" class="dashboard-placeholder">
+            <span class="dashboard-placeholder-mark">✧</span>
+            <strong>No saved builds yet</strong>
+            <p>Create a build to track upgrade targets here.</p>
+          </div>
+
+        </article>
+
+        <article class="dashboard-panel dashboard-materials-panel">
+          <div class="dashboard-panel-heading">
+            <div>
+              <p class="dashboard-panel-kicker">RESOURCE INTELLIGENCE</p>
+              <h2>Material Requirements</h2>
+            </div>
+            <span class="dashboard-panel-icon">◇</span>
+          </div>
+
+          <div id="dashboardMaterialsRequirements" class="dashboard-materials-overview">
+            <div class="dashboard-loading-line"></div>
+            <div class="dashboard-loading-line dashboard-loading-line-short"></div>
+          </div>
+        </article>
+
+      </div>
+
+
+      <div class="dashboard-quick-nav">
+
+        <div class="dashboard-quick-nav-heading">
+          <div>
+            <p class="dashboard-panel-kicker">JOURNEY LINKS</p>
+            <h2>Quick Navigation</h2>
+          </div>
+          <span>Reach your active tools</span>
+        </div>
+
+
+        <div class="dashboard-link-grid">
+
+          <a class="dashboard-link-card" href="#characters">
+            <span>✦</span>
+            <strong>Characters</strong>
+            <small>Browse the roster</small>
+          </a>
+
+
+          <a class="dashboard-link-card" href="#calculator">
+            <span>⚔</span>
+            <strong>Build Planner</strong>
+            <small>Set upgrade targets</small>
+          </a>
+
+          <a class="dashboard-link-card" href="#builds">
+            <span>◈</span>
+            <strong>Build Library</strong>
+            <small>Manage saved builds</small>
+          </a>
+
+          <a class="dashboard-link-card" href="#materials">
+            <span>◇</span>
+            <strong>Materials</strong>
+            <small>Compare requirements</small>
+          </a>
+
+
+          <a class="dashboard-link-card" href="#inventory">
+            <span>◇</span>
+            <strong>Inventory</strong>
+            <small>Track materials</small>
+          </a>
+
+
+          <a class="dashboard-link-card" href="#farmingSchedule">
+            <span>⌁</span>
+            <strong>Farming</strong>
+            <small>Plan weekly tasks</small>
+          </a>
+
+
+          <div class="dashboard-link-card dashboard-link-card-disabled">
+            <span>♧</span>
+            <strong>Teams</strong>
+            <small>Coming Soon</small>
+          </div>
+
+
+          <div class="dashboard-link-card dashboard-link-card-disabled">
+            <span>◈</span>
+            <strong>Progress</strong>
+            <small>Coming Soon</small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
   <!-- ======================================================
@@ -145,6 +416,43 @@
         id="searchInput"
         placeholder="Search character..."
       >
+
+
+      <div class="collection-filter-area">
+
+        <span class="filter-title">
+          COLLECTION
+        </span>
+
+
+        <div class="collection-filters">
+
+          <button
+            class="collection-filter-button active"
+            data-collection="All"
+          >
+            All Characters
+          </button>
+
+
+          <button
+            class="collection-filter-button"
+            data-collection="Owned"
+          >
+            Owned
+          </button>
+
+
+          <button
+            class="collection-filter-button"
+            data-collection="Not Owned"
+          >
+            Not Owned
+          </button>
+
+        </div>
+
+      </div>
 
 
       <div class="filter-area">
@@ -388,6 +696,277 @@
 
     </div>
 
+  </section>
+
+
+  <!-- ======================================================
+       BUILD MANAGEMENT
+       ====================================================== -->
+
+  <section
+    id="builds"
+    class="section build-management-section"
+  >
+
+    <div class="section-heading">
+      <p class="section-label">BUILD LIBRARY</p>
+      <h2>Character Builds</h2>
+      <p class="section-description">
+        Save multiple upgrade plans for each owned character without changing
+        the existing material calculators.
+      </p>
+    </div>
+
+    <div class="build-management-layout">
+
+      <aside class="build-character-panel">
+        <div class="build-panel-heading">
+          <div>
+            <p class="target-label">ROSTER</p>
+            <h3>Choose a Character</h3>
+          </div>
+          <span class="dashboard-panel-icon">✦</span>
+        </div>
+        <p class="build-panel-note">
+          Owned characters appear first. Ownership is managed in the character
+          collection above.
+        </p>
+        <div id="buildCharacterPicker" class="build-character-picker"></div>
+      </aside>
+
+      <div class="build-workspace">
+        <div id="buildWorkspaceEmpty" class="empty-state build-workspace-empty">
+          <div class="empty-icon">◈</div>
+          <h3>Select an owned character</h3>
+          <p>Choose a character to create or edit saved builds.</p>
+        </div>
+
+        <div id="buildWorkspace" class="build-workspace-content hidden">
+          <div class="build-workspace-header">
+            <div class="build-workspace-character">
+              <div id="buildManagerCharacterIcon" class="character-icon large">?</div>
+              <div>
+                <p class="selected-label">BUILD LIBRARY</p>
+                <h3 id="buildManagerCharacterName">Character</h3>
+                <p id="buildManagerCharacterDetails">Element • Weapon</p>
+              </div>
+            </div>
+            <button id="createBuildButton" class="primary-button" type="button">
+              + New Build
+            </button>
+          </div>
+
+          <div id="buildList" class="saved-build-list"></div>
+
+          <form id="buildEditor" class="build-editor" novalidate>
+            <div class="build-editor-header">
+              <div>
+                <p class="target-label">ACTIVE BUILD</p>
+                <h3 id="buildEditorTitle">Build Details</h3>
+              </div>
+              <div class="build-editor-actions">
+                <button id="renameBuildButton" class="secondary-button" type="button">
+                  Rename
+                </button>
+                <button id="duplicateBuildButton" class="secondary-button" type="button">
+                  Duplicate
+                </button>
+                <button id="deleteBuildButton" class="danger-button" type="button">
+                  Delete
+                </button>
+              </div>
+            </div>
+
+            <label class="build-name-field">
+              <span>Build name</span>
+              <input id="buildNameInput" type="text" maxlength="80" required>
+            </label>
+
+            <div class="build-progress-summary">
+              <div>
+                <span>Progress</span>
+                <strong id="buildProgressValue">0%</strong>
+              </div>
+              <span id="buildProgressStatus" class="build-status">Not Started</span>
+              <div class="build-progress-track">
+                <span id="buildProgressBar"></span>
+              </div>
+              <small id="buildProgressNote">No upgrade targets saved yet.</small>
+            </div>
+
+            <div class="build-editor-section">
+              <div class="build-editor-section-heading">
+                <div>
+                  <p class="target-label">UPGRADE TARGETS</p>
+                  <h4>Character and talents</h4>
+                </div>
+                <button id="openBuildCalculatorButton" class="text-button" type="button">
+                  Open calculator
+                </button>
+              </div>
+              <div class="build-input-grid build-input-grid-four">
+                <label>
+                  <span>Character level</span>
+                  <input id="buildTargetLevel" type="number" min="1" max="90" step="1" required>
+                </label>
+                <label>
+                  <span>Normal Attack</span>
+                  <input id="buildTargetNormal" type="number" min="1" max="10" step="1" required>
+                </label>
+                <label>
+                  <span>Elemental Skill</span>
+                  <input id="buildTargetSkill" type="number" min="1" max="10" step="1" required>
+                </label>
+                <label>
+                  <span>Elemental Burst</span>
+                  <input id="buildTargetBurst" type="number" min="1" max="10" step="1" required>
+                </label>
+              </div>
+              <p class="build-field-note">
+                These values are loaded into the existing ascension and talent calculators.
+              </p>
+            </div>
+
+            <div class="build-editor-section">
+              <div class="build-editor-section-heading">
+                <div>
+                  <p class="target-label">WEAPON CONFIGURATION</p>
+                  <h4>Optional weapon target</h4>
+                </div>
+              </div>
+              <div class="build-input-grid build-input-grid-five">
+                <label class="build-input-wide">
+                  <span>Weapon name</span>
+                  <input id="buildWeaponName" type="text" maxlength="100" placeholder="Enter a weapon name">
+                </label>
+                <label>
+                  <span>Type</span>
+                  <select id="buildWeaponType"></select>
+                </label>
+                <label>
+                  <span>Rarity</span>
+                  <select id="buildWeaponRarity">
+                    <option value="">Not specified</option>
+                    <option value="1">1★</option>
+                    <option value="2">2★</option>
+                    <option value="3">3★</option>
+                    <option value="4">4★</option>
+                    <option value="5">5★</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Level</span>
+                  <input id="buildWeaponLevel" type="number" min="1" max="90" step="1" value="1">
+                </label>
+                <label>
+                  <span>Refinement</span>
+                  <select id="buildWeaponRefinement">
+                    <option value="1">R1</option>
+                    <option value="2">R2</option>
+                    <option value="3">R3</option>
+                    <option value="4">R4</option>
+                    <option value="5">R5</option>
+                  </select>
+                </label>
+              </div>
+              <p class="build-field-note">
+                Weapon names are entered manually because this project does not currently include a weapon database.
+              </p>
+            </div>
+
+            <div class="build-editor-section">
+              <div class="build-editor-section-heading">
+                <div>
+                  <p class="target-label">ARTIFACT CONFIGURATION</p>
+                  <h4>Artifact targets</h4>
+                </div>
+              </div>
+              <div id="artifactEditorGrid" class="artifact-editor-grid"></div>
+              <p class="build-field-note">
+                Set names and stats are freeform targets; no artifact bonuses or recommendations are inferred.
+              </p>
+            </div>
+
+            <div class="build-save-row">
+              <p id="buildValidationMessage" class="build-validation-message" role="alert"></p>
+              <button id="saveBuildButton" class="primary-button" type="submit">
+                Save Build
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================================================
+       MATERIAL REQUIREMENTS
+       ====================================================== -->
+
+  <section
+    id="materials"
+    class="section materials-section"
+  >
+
+    <div class="section-heading">
+      <p class="section-label">RESOURCE INTELLIGENCE</p>
+      <h2>Material Requirements</h2>
+      <p class="section-description">
+        Compare saved build targets with the materials currently recorded in
+        your inventory.
+      </p>
+    </div>
+
+    <div class="materials-toolbar">
+      <div>
+        <p id="materialsStatus" class="materials-status">Waiting for saved builds.</p>
+        <small>Missing values use Required − Owned, never below zero.</small>
+      </div>
+      <button id="refreshMaterialsButton" class="secondary-button" type="button">
+        Refresh Requirements
+      </button>
+    </div>
+
+    <div class="materials-summary-grid">
+      <article class="materials-summary-card">
+        <span>Missing material types</span>
+        <strong id="materialsMissingTypes">0</strong>
+      </article>
+      <article class="materials-summary-card">
+        <span>Missing material quantity</span>
+        <strong id="materialsMissingQuantity">0</strong>
+      </article>
+      <article class="materials-summary-card">
+        <span>Mora shortage</span>
+        <strong id="materialsMoraShortage">0</strong>
+      </article>
+      <article class="materials-summary-card">
+        <span>Builds with outstanding needs</span>
+        <strong id="materialsBuildsOutstanding">0</strong>
+      </article>
+    </div>
+
+    <div class="materials-summary-panel">
+      <div class="materials-panel-heading">
+        <div>
+          <p class="target-label">ACCOUNT-WIDE VIEW</p>
+          <h3>Combined Materials</h3>
+        </div>
+        <span id="materialsMostNeeded">No missing materials</span>
+      </div>
+      <div id="combinedMaterialsContent" class="materials-table-wrap"></div>
+    </div>
+
+    <div>
+      <div class="materials-panel-heading materials-build-heading">
+        <div>
+          <p class="target-label">BUILD BREAKDOWN</p>
+          <h3>Saved Build Requirements</h3>
+        </div>
+      </div>
+      <div id="buildMaterialsContent" class="build-materials-grid"></div>
+    </div>
   </section>
 
 
@@ -1070,6 +1649,9 @@
 <script src="farming.js"></script>
 <script src="character-domains.js"></script>
 <script src="enemy-drops.js"></script>
+<script src="builds.js"></script>
+<script src="materials.js"></script>
+<script src="dashboard.js"></script>
 
 </body> 
 

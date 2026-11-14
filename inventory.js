@@ -27,6 +27,16 @@ function getInventoryStorage() {
 
 }
 
+function notifyInventoryChanged() {
+
+    window.dispatchEvent(
+        new CustomEvent(
+            "inventoryChanged"
+        )
+    );
+
+}
+
 
 function saveInventoryStorage(data) {
 
@@ -62,6 +72,8 @@ function saveInventoryStorage(data) {
     saveInventoryToMongo(
         inventoryStorage
     );
+
+    notifyInventoryChanged();
 
 }
 
@@ -178,6 +190,7 @@ async function loadInventoryFromMongo() {
 
 
         refreshInventory();
+        notifyInventoryChanged();
 
 
         // Tell Resin to recalculate
@@ -417,6 +430,8 @@ function saveOwned(
     saveInventoryToMongo(
         inventoryStorage
     );
+
+    notifyInventoryChanged();
 
 }
 
@@ -2081,6 +2096,7 @@ async function resetInventory() {
 
 
     refreshInventory();
+    notifyInventoryChanged();
 
 }
 

@@ -150,6 +150,13 @@ let activeRarity = "All";
 
 let activeWeapon = "All";
 
+let activeCollection = "All";
+
+const CHARACTER_OWNERSHIP_STORAGE_KEY =
+  "genshinBuildPlannerCharacterOwnership";
+
+let characterOwnership = loadCharacterOwnership();
+
 
 /* =========================================
    DOM
@@ -172,6 +179,11 @@ const rarityFilterButtons =
 const weaponFilterButtons =
   document.querySelectorAll(
     ".weapon-filter-button"
+  );
+
+const collectionFilterButtons =
+  document.querySelectorAll(
+    ".collection-filter-button"
   );
 
 
@@ -479,6 +491,244 @@ function slugify(name) {
 
 
 /* =========================================
+   CHARACTER OWNERSHIP
+========================================= */
+
+function isValidCharacterId(id) {
+
+  return characters.some(
+    character => character.id === id
+  );
+
+}
+
+
+function normalizeOwnershipRecord(record) {
+
+  if (
+    !record ||
+    typeof record !== "object"
+  ) {
+
+    return null;
+
+  }
+
+  const level =
+    Number(record.level);
+
+  const constellation =
+    Number(record.constellation);
+
+  return {
+    owned: true,
+    level:
+      Number.isInteger(level) &&
+      level >= 1 &&
+      level <= 90
+        ? level
+        : 1,
+    constellation:
+      Number.isInteger(constellation) &&
+      constellation >= 0 &&
+      constellation <= 6
+        ? constellation
+        : 0
+  };
+
+}
+
+
+function loadCharacterOwnership() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        CHARACTER_OWNERSHIP_STORAGE_KEY
+      );
+
+    if (!saved) {
+
+      return {};
+
+    }
+
+    const parsed =
+      JSON.parse(saved);
+
+    if (
+      !parsed ||
+      typeof parsed !== "object" ||
+      Array.isArray(parsed)
+    ) {
+
+      return {};
+
+    }
+
+    const normalized = {};
+
+    Object.entries(parsed).forEach(
+      ([id, record]) => {
+
+        if (!isValidCharacterId(id)) {
+
+          return;
+
+        }
+
+        const normalizedRecord =
+          normalizeOwnershipRecord(record);
+
+        if (normalizedRecord) {
+
+          normalized[id] =
+            normalizedRecord;
+
+        }
+
+      }
+    );
+
+    return normalized;
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Unable to read character ownership:",
+      error
+    );
+
+    return {};
+
+  }
+
+}
+
+
+function saveCharacterOwnership() {
+
+  try {
+
+    localStorage.setItem(
+      CHARACTER_OWNERSHIP_STORAGE_KEY,
+      JSON.stringify(characterOwnership)
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Unable to save character ownership:",
+      error
+    );
+
+  }
+
+}
+
+
+function isCharacterOwned(character) {
+
+  return Boolean(
+    characterOwnership[character.id]?.owned
+  );
+
+}
+
+
+function notifyOwnershipChanged() {
+
+  window.dispatchEvent(
+    new CustomEvent(
+      "characterOwnershipChanged"
+    )
+  );
+
+}
+
+
+function setCharacterOwnership(
+  character,
+  owned
+) {
+
+  if (owned) {
+
+    characterOwnership[character.id] =
+      characterOwnership[character.id] ||
+      {
+        owned: true,
+        level: 1,
+        constellation: 0
+      };
+
+    characterOwnership[character.id].owned =
+      true;
+
+  }
+
+  else {
+
+    delete characterOwnership[character.id];
+
+  }
+
+  saveCharacterOwnership();
+  displayCharacters();
+  notifyOwnershipChanged();
+
+}
+
+
+function updateOwnershipField(
+  character,
+  field,
+  value,
+  input
+) {
+
+  if (!isCharacterOwned(character)) {
+
+    return;
+
+  }
+
+  const numericValue =
+    Number(value);
+
+  const bounds =
+    field === "level"
+      ? { min: 1, max: 90 }
+      : { min: 0, max: 6 };
+
+  if (
+    !Number.isInteger(numericValue) ||
+    numericValue < bounds.min ||
+    numericValue > bounds.max
+  ) {
+
+    input.value =
+      characterOwnership[character.id][field];
+
+    return;
+
+  }
+
+  characterOwnership[character.id][field] =
+    numericValue;
+
+  saveCharacterOwnership();
+  notifyOwnershipChanged();
+
+}
+
+
+/* =========================================
    DISPLAY CHARACTERS
 ========================================= */
 
@@ -532,12 +782,31 @@ function displayCharacters() {
           activeWeapon === "All" ||
           character.weapon === activeWeapon;
 
+        /*
+          COLLECTION
+        */
+
+        const owned =
+          isCharacterOwned(character);
+
+        const matchesCollection =
+          activeCollection === "All" ||
+          (
+            activeCollection === "Owned" &&
+            owned
+          ) ||
+          (
+            activeCollection === "Not Owned" &&
+            !owned
+          );
+
 
         return (
           matchesSearch &&
           matchesElement &&
           matchesRarity &&
-          matchesWeapon
+          matchesWeapon &&
+          matchesCollection
         );
 
       }
@@ -569,7 +838,7 @@ function displayCharacters() {
 
         <p>
           Try another search,
-          element, rarity or weapon.
+          element, rarity, weapon or collection filter.
         </p>
 
       </div>
@@ -596,6 +865,17 @@ function displayCharacters() {
 
       card.className =
         "character-card";
+
+      const owned =
+        isCharacterOwned(character);
+
+      if (owned) {
+
+        card.classList.add(
+          "owned"
+        );
+
+      }
 
 
       /*
@@ -642,6 +922,59 @@ function displayCharacters() {
           ${"★".repeat(character.rarity)}
         </p>
 
+        <div
+          class="character-ownership"
+          data-character-id="${character.id}"
+        >
+
+          <button
+            type="button"
+            class="ownership-toggle ${owned ? "is-owned" : ""}"
+            data-ownership-action="toggle"
+            aria-pressed="${owned}"
+          >
+            ${owned ? "✓ Owned" : "＋ Mark Owned"}
+          </button>
+
+          <div
+            class="ownership-details ${owned ? "is-visible" : ""}"
+          >
+
+            <label>
+              <span>Level</span>
+              <input
+                type="number"
+                min="1"
+                max="90"
+                value="${owned ? characterOwnership[character.id].level : 1}"
+                data-ownership-field="level"
+                aria-label="${character.name} level"
+              >
+            </label>
+
+            <label>
+              <span>Constellation</span>
+              <select
+                data-ownership-field="constellation"
+                aria-label="${character.name} constellation"
+              >
+                ${[0, 1, 2, 3, 4, 5, 6].map(
+                  constellation => `
+                    <option
+                      value="${constellation}"
+                      ${owned && characterOwnership[character.id].constellation === constellation ? "selected" : ""}
+                    >
+                      C${constellation}
+                    </option>
+                  `
+                ).join("")}
+              </select>
+            </label>
+
+          </div>
+
+        </div>
+
       `;
 
 
@@ -683,7 +1016,17 @@ function displayCharacters() {
 
       card.addEventListener(
         "click",
-        () => {
+        event => {
+
+          if (
+            event.target.closest(
+              ".character-ownership"
+            )
+          ) {
+
+            return;
+
+          }
 
           selectCharacter(
             character
@@ -695,6 +1038,59 @@ function displayCharacters() {
 
       characterGrid.appendChild(
         card
+      );
+
+      const ownershipControls =
+        card.querySelector(
+          ".character-ownership"
+        );
+
+      ownershipControls.addEventListener(
+        "click",
+        event => {
+
+          const toggle =
+            event.target.closest(
+              "[data-ownership-action='toggle']"
+            );
+
+          if (!toggle) {
+
+            return;
+
+          }
+
+          setCharacterOwnership(
+            character,
+            !isCharacterOwned(character)
+          );
+
+        }
+      );
+
+      ownershipControls.addEventListener(
+        "change",
+        event => {
+
+          const input =
+            event.target.closest(
+              "[data-ownership-field]"
+            );
+
+          if (!input) {
+
+            return;
+
+          }
+
+          updateOwnershipField(
+            character,
+            input.dataset.ownershipField,
+            input.value,
+            input
+          );
+
+        }
       );
 
     }
@@ -955,6 +1351,43 @@ weaponFilterButtons.forEach(
         activeWeapon =
           button.dataset.weapon;
 
+
+        displayCharacters();
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
+   COLLECTION FILTER
+========================================= */
+
+collectionFilterButtons.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        collectionFilterButtons.forEach(
+          btn => {
+
+            btn.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+        button.classList.add(
+          "active"
+        );
+
+        activeCollection =
+          button.dataset.collection;
 
         displayCharacters();
 
