@@ -148,6 +148,8 @@ let activeElement = "All";
 
 let activeRarity = "All";
 
+let activeWeapon = "All";
+
 
 /* =========================================
    DOM
@@ -165,6 +167,11 @@ const filterButtons =
 const rarityFilterButtons =
   document.querySelectorAll(
     ".rarity-filter-button"
+  );
+
+const weaponFilterButtons =
+  document.querySelectorAll(
+    ".weapon-filter-button"
   );
 
 
@@ -517,11 +524,20 @@ function displayCharacters() {
           Number(character.rarity) ===
             Number(activeRarity);
 
+        /*
+          WEAPON
+        */
+
+        const matchesWeapon =
+          activeWeapon === "All" ||
+          character.weapon === activeWeapon;
+
 
         return (
           matchesSearch &&
           matchesElement &&
-          matchesRarity
+          matchesRarity &&
+          matchesWeapon
         );
 
       }
@@ -553,7 +569,7 @@ function displayCharacters() {
 
         <p>
           Try another search,
-          element or rarity.
+          element, rarity or weapon.
         </p>
 
       </div>
@@ -899,6 +915,46 @@ rarityFilterButtons.forEach(
         /*
           Refresh character cards
         */
+
+        displayCharacters();
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
+   WEAPON FILTER
+========================================= */
+
+weaponFilterButtons.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        weaponFilterButtons.forEach(
+          btn => {
+
+            btn.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        activeWeapon =
+          button.dataset.weapon;
+
 
         displayCharacters();
 
